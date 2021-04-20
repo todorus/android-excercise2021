@@ -1,2 +1,4 @@
+include ':domain'
+include ':logic'
 include ':app'
 rootProject.name = "exercise2021"
