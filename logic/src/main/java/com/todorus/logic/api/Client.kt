@@ -1,27 +1,38 @@
 package com.todorus.logic.api
 
 import com.todorus.logic.gson
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Response
+import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private val httpClientBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
-    .addInterceptor(
-        object: Interceptor {
-            override fun intercept(chain: Interceptor.Chain): Response {
-                val request = chain.request()
-                    .newBuilder()
-                    .addHeader("Accept", "application/json")
-                    .build()
-                return chain.proceed(request)
-            }
-        }
-    )
+fun getRetrofitInstance(baseUrl: String, apiKey: String): Retrofit =
+    Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .client(getHttpClientBuilder(apiKey).build())
+        .addConverterFactory(jsonConverter)
+        .build()
 
 private val jsonConverter = GsonConverterFactory.create(gson)
 
-val retrofitInstance = Retrofit.Builder()
-    .baseUrl("https://api.github.com/")
+fun getHttpClientBuilder(apiKey: String): OkHttpClient.Builder =
+    OkHttpClient.Builder()
+        .addInterceptor { chain ->
+            val request = chain.request()
+                .acceptOnlyJson()
+                .addQueryParam("apikey", apiKey)
+            chain.proceed(request)
+        }
+
+fun Request.acceptOnlyJson(): Request = this.newBuilder()
+    .addHeader("Accept", "application/json")
     .build()
+
+fun Request.addQueryParam(key: String, value: String): Request {
+    val url: HttpUrl = this.url()
+        .newBuilder()
+        .addQueryParameter(key, value)
+        .build()
+    return this.newBuilder()
+        .url(url)
+        .build()
+}
