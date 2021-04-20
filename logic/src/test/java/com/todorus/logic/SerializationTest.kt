@@ -1,8 +1,6 @@
 package com.todorus.logic
 
-import com.todorus.domain.AttributeGroup
-import com.todorus.domain.Attribute
-import com.todorus.domain.Product
+import com.todorus.domain.*
 import com.todorus.logic.api.ProductService
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -76,6 +74,18 @@ class SerializationTest {
                             type = "IMAGE",
                             key = "S",
                             url = "https://media.s-bol.com/K83QQkwjyy1n/97x123.jpg"
+                        )
+                    ),
+                    offerData = OfferData(
+                        bolCom = 0,
+                        nonProfessionalSellers = 1,
+                        professionalSellers = 0,
+                        offers = listOf(
+                            Offer(
+                                id = "1001034641790806",
+                                condition = "Als nieuw",
+                                price = 43.49f
+                            )
                         )
                     )
                 )
