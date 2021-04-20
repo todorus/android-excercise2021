@@ -76,6 +76,18 @@ class SerializationTest {
                             url = "https://media.s-bol.com/K83QQkwjyy1n/97x123.jpg"
                         )
                     ),
+                    media = listOf(
+                        Attribute(
+                            type = "IMAGE",
+                            key = "XL",
+                            url = "https://media.s-bol.com/BxGk3GYvVjY/550x237.jpg"
+                        ),
+                        Attribute(
+                            type = "IMAGE",
+                            key = "XL",
+                            url = "https://media.s-bol.com/K83QQkwjyy1n/550x695.jpg"
+                        )
+                    ),
                     offerData = OfferData(
                         bolCom = 0,
                         nonProfessionalSellers = 1,
@@ -202,46 +214,6 @@ class SerializationTest {
             "                    \"type\": \"IMAGE\",\n" +
             "                    \"key\": \"XL\",\n" +
             "                    \"url\": \"https://media.s-bol.com/K83QQkwjyy1n/550x695.jpg\"\n" +
-            "                },\n" +
-            "                {\n" +
-            "                    \"type\": \"IMAGE\",\n" +
-            "                    \"key\": \"XL\",\n" +
-            "                    \"url\": \"https://media.s-bol.com/N9Xl9L5kZl68/550x385.jpg\"\n" +
-            "                },\n" +
-            "                {\n" +
-            "                    \"type\": \"IMAGE\",\n" +
-            "                    \"key\": \"XL\",\n" +
-            "                    \"url\": \"https://media.s-bol.com/OyLmyM5Y1m0E/550x309.jpg\"\n" +
-            "                },\n" +
-            "                {\n" +
-            "                    \"type\": \"IMAGE\",\n" +
-            "                    \"key\": \"XL\",\n" +
-            "                    \"url\": \"https://media.s-bol.com/RRy5jPq83DL/550x309.jpg\"\n" +
-            "                },\n" +
-            "                {\n" +
-            "                    \"type\": \"IMAGE\",\n" +
-            "                    \"key\": \"XL\",\n" +
-            "                    \"url\": \"https://media.s-bol.com/grWlm88JLG3/550x309.jpg\"\n" +
-            "                },\n" +
-            "                {\n" +
-            "                    \"type\": \"IMAGE\",\n" +
-            "                    \"key\": \"XL\",\n" +
-            "                    \"url\": \"https://media.s-bol.com/myD813VJPWyR/550x706.jpg\"\n" +
-            "                },\n" +
-            "                {\n" +
-            "                    \"type\": \"IMAGE\",\n" +
-            "                    \"key\": \"XL\",\n" +
-            "                    \"url\": \"https://media.s-bol.com/qGWyzGvE6lG/550x309.jpg\"\n" +
-            "                },\n" +
-            "                {\n" +
-            "                    \"type\": \"IMAGE\",\n" +
-            "                    \"key\": \"XL\",\n" +
-            "                    \"url\": \"https://media.s-bol.com/xPWJJD4Lp4J/550x309.jpg\"\n" +
-            "                },\n" +
-            "                {\n" +
-            "                    \"type\": \"IMAGE\",\n" +
-            "                    \"key\": \"XL\",\n" +
-            "                    \"url\": \"https://media.s-bol.com/xkqq9kQqrq7E/550x209.jpg\"\n" +
             "                }\n" +
             "            ],\n" +
             "            \"offerData\": {\n" +

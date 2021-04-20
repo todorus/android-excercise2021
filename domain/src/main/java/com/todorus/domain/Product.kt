@@ -9,5 +9,6 @@ data class Product (
     val longDescription: String,
     val attributeGroups: List<AttributeGroup>,
     val images: List<Attribute>,
+    val media: List<Attribute>,
     val offerData: OfferData
 )
