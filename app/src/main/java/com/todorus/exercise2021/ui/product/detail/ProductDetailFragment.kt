@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.todorus.exercise2021.R
 import com.todorus.exercise2021.api
 import com.todorus.exercise2021.databinding.MainFragmentBinding
+import com.todorus.exercise2021.ui.product.detail.media.MediaAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -28,6 +29,7 @@ class ProductDetailFragment : Fragment() {
 
         val binding: MainFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
         binding.viewModel = viewModel
+        binding.header.adapter = MediaAdapter(this)
         return binding.root
     }
 

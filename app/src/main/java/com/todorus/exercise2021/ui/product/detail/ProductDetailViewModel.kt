@@ -2,8 +2,8 @@ package com.todorus.exercise2021.ui.product.detail
 
 import androidx.databinding.Bindable
 import com.todorus.domain.Product
-import com.todorus.exercise2021.ui.ObservableViewModel
 import com.todorus.exercise2021.BR
+import com.todorus.exercise2021.ui.ObservableViewModel
 
 class ProductDetailViewModel : ObservableViewModel() {
 
@@ -14,7 +14,6 @@ class ProductDetailViewModel : ObservableViewModel() {
             notifyPropertyChanged(BR.loading)
         }
 
-
     var product: Product? = null
         set(value) {
             field = value
@@ -22,7 +21,16 @@ class ProductDetailViewModel : ObservableViewModel() {
         }
 
     @get:Bindable
-    var title: String? = null
+    val title: String?
         get() = product?.title
+
+    @get:Bindable
+    val price: String?
+        get() = product?.offerData?.offers?.first()
+            ?.price.toString()
+
+    @get:Bindable
+    val mediaUrls: List<String>?
+        get() = product?.media?.map { it.url!! }
 
 }
