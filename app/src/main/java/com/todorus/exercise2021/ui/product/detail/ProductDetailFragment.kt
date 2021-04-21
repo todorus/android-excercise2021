@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.todorus.domain.Product
 import com.todorus.exercise2021.R
+import com.todorus.exercise2021.analytics
 import com.todorus.exercise2021.api
 import com.todorus.exercise2021.databinding.MainFragmentBinding
 import com.todorus.exercise2021.ui.product.detail.items.ProductDetailAdapter
@@ -24,6 +25,7 @@ class ProductDetailFragment : Fragment() {
     }
 
     private lateinit var viewModel: ProductDetailViewModel
+    private val productId = "9200000056275116"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,16 +51,25 @@ class ProductDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fetchData("9200000056275116")
+        context?.analytics?.event("ProductDetail.Enter", productId)
+        fetchData(productId)
     }
 
     val onFavClick = View.OnClickListener {
         viewModel.favorite = !viewModel.favorite
+
+        val event = if(viewModel.favorite) {
+            "Favorited"
+        } else {
+            "Unfavorited"
+        }
+        context?.analytics?.event("ProductDetail.$event", productId)
     }
 
     val onAddToCartClick = View.OnClickListener {
         Toast.makeText(context, "Added product to basket", Toast.LENGTH_SHORT)
             .show()
+        context?.analytics?.event("ProductDetail.AddedToCart", productId)
     }
 
     private fun fetchData(productId: String) {
