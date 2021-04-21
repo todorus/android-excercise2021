@@ -7,6 +7,8 @@ import com.todorus.exercise2021.ui.ObservableViewModel
 
 class ProductDetailViewModel : ObservableViewModel() {
 
+
+
     @get:Bindable
     var loading: Boolean = true
         set(value) {
@@ -30,7 +32,20 @@ class ProductDetailViewModel : ObservableViewModel() {
             ?.price.toString()
 
     @get:Bindable
+    val description: String?
+        get() = product?.shortDescription
+
+    @get:Bindable
+    val rating: Int?
+        get() = product?.rating
+
+    @get:Bindable
     val mediaUrls: List<String>?
         get() = product?.media?.map { it.url!! }
+
+    var recommended: List<Product>? = null
+
+    var accessories: List<Product>? = null
+
 
 }

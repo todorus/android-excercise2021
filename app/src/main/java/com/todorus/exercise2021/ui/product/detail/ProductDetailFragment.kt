@@ -14,6 +14,7 @@ import com.todorus.exercise2021.databinding.MainFragmentBinding
 import com.todorus.exercise2021.ui.product.detail.media.MediaAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class ProductDetailFragment : Fragment() {
 
@@ -42,9 +43,14 @@ class ProductDetailFragment : Fragment() {
         viewModel.loading = true
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            val result = context?.api?.productService?.get("9200000028828094")!!
+            val productResult = context?.api?.productService?.get("9200000028828094")!!
+            val recommendationResult = context?.api?.productService?.getRecommendations("9200000028828094")!!
+            val accessoriesResult =  context?.api?.productService?.getRelated("9200000028828094")!!
+            Timber.d("got data")
             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                viewModel.product = result.products.first()
+                viewModel.product = productResult.products.first()
+                viewModel.recommended = recommendationResult.products
+                viewModel.accessories= accessoriesResult.products
                 viewModel.loading = false
             }
         }
