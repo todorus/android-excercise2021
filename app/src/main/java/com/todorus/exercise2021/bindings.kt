@@ -1,5 +1,6 @@
 package com.todorus.exercise2021
 
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -25,4 +26,13 @@ fun setProductDetailItems(view: RecyclerView, value: List<ProductDetailItem>?) {
         return
     }
     (view.adapter as ProductDetailAdapter).data = value
+}
+
+@BindingAdapter("textResource")
+fun setProductDetailItems(view: TextView, value: Int?) {
+    view.text = if(value != null) {
+        view.resources.getString(value)
+    } else {
+        null
+    }
 }

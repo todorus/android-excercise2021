@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="padding">20dp</dimen>
+    <dimen name="margin_title_top">20dp</dimen>
+    <dimen name="margin_title_bottom">5dp</dimen>
+
     <dimen name="product_header_image_height">200dp</dimen>
     <dimen name="product_related_image_height">80dp</dimen>
 </resources>

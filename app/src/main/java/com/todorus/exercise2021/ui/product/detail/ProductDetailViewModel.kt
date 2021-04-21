@@ -3,7 +3,11 @@ package com.todorus.exercise2021.ui.product.detail
 import androidx.databinding.Bindable
 import com.todorus.domain.Product
 import com.todorus.exercise2021.BR
+import com.todorus.exercise2021.R
 import com.todorus.exercise2021.ui.product.detail.items.ProductDetailItem
+import com.todorus.exercise2021.ui.product.detail.items.ProductHeaderItem
+import com.todorus.exercise2021.ui.product.detail.items.ProductProductItem
+import com.todorus.exercise2021.ui.product.detail.items.ProductTitleItem
 import com.todorus.exercise2021.ui.product.observables.ObservableViewModel
 
 class ProductDetailViewModel : ObservableViewModel() {
@@ -48,16 +52,14 @@ class ProductDetailViewModel : ObservableViewModel() {
             val all: MutableList<ProductDetailItem> = mutableListOf()
 
             product?.let {
-                all.add(ProductDetailItem(ProductDetailItem.Type.HEADER, it))
+                all.add(ProductHeaderItem(it))
             }
 
             recommendations?.let {
-                val items = it.map { ProductDetailItem(ProductDetailItem.Type.PRODUCT, it) }
-                all.addAll(items)
+                all.addProducts(it, R.string.productdetail_title_recommended)
             }
             accessories?.let {
-                val items = it.map { ProductDetailItem(ProductDetailItem.Type.PRODUCT, it) }
-                all.addAll(items)
+                all.addProducts(it, R.string.productdetail_title_accessories)
             }
 
             return all
@@ -83,5 +85,10 @@ class ProductDetailViewModel : ObservableViewModel() {
     @get:Bindable
     val mediaUrls: List<String>?
         get() = product?.media?.map { it.url!! }
+
+    fun MutableList<ProductDetailItem>.addProducts(products: List<Product>, headerStringResource: Int) {
+        this.add(ProductTitleItem(headerStringResource))
+        this.addAll(products.map { ProductProductItem(it) })
+    }
 
 }

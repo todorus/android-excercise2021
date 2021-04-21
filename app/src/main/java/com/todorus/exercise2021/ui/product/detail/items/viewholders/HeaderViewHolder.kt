@@ -11,6 +11,7 @@ import com.todorus.domain.Product
 import com.todorus.exercise2021.R
 import com.todorus.exercise2021.databinding.ItemProductHeaderBinding
 import com.todorus.exercise2021.ui.product.detail.items.ProductDetailItem
+import com.todorus.exercise2021.ui.product.detail.items.ProductHeaderItem
 import com.todorus.exercise2021.ui.product.detail.media.MediaAdapter
 
 class HeaderViewHolder(itemView: View): ItemViewHolder(itemView) {
@@ -30,7 +31,7 @@ class HeaderViewHolder(itemView: View): ItemViewHolder(itemView) {
     override val type: ProductDetailItem.Type = ProductDetailItem.Type.HEADER
 
     override fun bind(data: ProductDetailItem) {
-        product = data.product
+        product = (data as ProductHeaderItem).product
     }
 
     var product: Product? = null

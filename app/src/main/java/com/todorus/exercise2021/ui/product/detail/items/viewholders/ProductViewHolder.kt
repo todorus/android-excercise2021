@@ -9,6 +9,7 @@ import com.todorus.domain.Product
 import com.todorus.exercise2021.R
 import com.todorus.exercise2021.databinding.ItemProductProductBinding
 import com.todorus.exercise2021.ui.product.detail.items.ProductDetailItem
+import com.todorus.exercise2021.ui.product.detail.items.ProductProductItem
 
 class ProductViewHolder(itemView: View): ItemViewHolder(itemView) {
 
@@ -27,7 +28,7 @@ class ProductViewHolder(itemView: View): ItemViewHolder(itemView) {
     override val type: ProductDetailItem.Type = ProductDetailItem.Type.PRODUCT
 
     override fun bind(data: ProductDetailItem) {
-        product = data.product
+        product = (data as ProductProductItem).product
     }
 
     var product: Product? = null

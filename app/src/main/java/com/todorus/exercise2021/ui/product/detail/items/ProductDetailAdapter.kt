@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.todorus.exercise2021.ui.product.detail.items.viewholders.HeaderViewHolder
 import com.todorus.exercise2021.ui.product.detail.items.viewholders.ItemViewHolder
 import com.todorus.exercise2021.ui.product.detail.items.viewholders.ProductViewHolder
+import com.todorus.exercise2021.ui.product.detail.items.viewholders.TitleViewHolder
 import timber.log.Timber
 
 class ProductDetailAdapter(val fragmentManager: FragmentManager, val lifecycle: Lifecycle): RecyclerView.Adapter<ItemViewHolder>() {
@@ -22,6 +23,7 @@ class ProductDetailAdapter(val fragmentManager: FragmentManager, val lifecycle: 
         return when(type) {
             ProductDetailItem.Type.HEADER -> HeaderViewHolder.create(parent, fragmentManager, lifecycle)
             ProductDetailItem.Type.PRODUCT -> ProductViewHolder.create(parent)
+            ProductDetailItem.Type.TITLE -> TitleViewHolder.create(parent)
         }
     }
 

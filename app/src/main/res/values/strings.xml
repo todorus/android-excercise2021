@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">exercise2021</string>
+    <string name="productdetail_title_recommended">Recommended</string>
+    <string name="productdetail_title_accessories">Accesories</string>
 </resources>

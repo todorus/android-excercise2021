@@ -29,6 +29,8 @@
             tools:context=".ui.product.detail.ProductDetailFragment"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:productDetailItems="@{viewModel.items}"
+            android:padding="@dimen/padding"
+            android:clipToPadding="false"
             tools:visibility="visible"/>
 
         <ProgressBar
