@@ -57,4 +57,11 @@ class ProductViewHolder(itemView: View): ItemViewHolder(itemView) {
     @get:Bindable
     val mediaUrls: List<String>?
         get() = product?.media?.map { it.url!! }
+
+    @get:Bindable
+    val imageUrl: String?
+        get() {
+            val firstImage = product?.images?.firstOrNull()
+            return firstImage?.url
+        }
 }

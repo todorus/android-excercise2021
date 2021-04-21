@@ -1,9 +1,11 @@
 package com.todorus.exercise2021
 
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.todorus.exercise2021.ui.product.detail.items.ProductDetailAdapter
 import com.todorus.exercise2021.ui.product.detail.items.ProductDetailItem
 import com.todorus.exercise2021.ui.product.detail.media.MediaAdapter
@@ -17,6 +19,13 @@ fun setImages(view: ViewPager2, value: List<String>?) {
         return
     }
     (view.adapter as MediaAdapter).data = value
+}
+
+@BindingAdapter("imageUrl")
+fun setImage(view: ImageView, value: String) {
+    Glide.with(view)
+        .load(value)
+        .into(view)
 }
 
 @BindingAdapter("productDetailItems")
