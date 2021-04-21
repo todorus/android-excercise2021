@@ -1,9 +1,11 @@
 package com.todorus.exercise2021.ui.product.detail.media
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class MediaAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class MediaAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     var data: List<String>? = null
         set(value) {

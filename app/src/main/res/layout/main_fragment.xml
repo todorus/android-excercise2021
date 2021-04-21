@@ -17,8 +17,8 @@
         android:layout_height="match_parent">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/main"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="@{viewModel.loading ? View.GONE : View.VISIBLE, default=gone}"
@@ -27,61 +27,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:context=".ui.product.detail.ProductDetailFragment"
-            tools:visibility="visible">
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/header"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/product_image_height"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:imageUrls="@{viewModel.mediaUrls}"
-                tools:src="@drawable/ic_launcher_background" />
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.title}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/header"
-                tools:text="Product Title" />
-
-            <ProgressBar
-                android:id="@+id/rating"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:progress="@{viewModel.rating}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title" />
-
-            <TextView
-                android:id="@+id/price"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.price}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rating"
-                tools:text="€39,-"
-                />
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.description}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/price"
-                tools:text="€39,-"
-                />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:productDetailItems="@{viewModel.items}"
+            tools:visibility="visible"/>
 
         <ProgressBar
             android:id="@+id/busy"
@@ -94,6 +42,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:visibility="@{!viewModel.loading ? View.GONE : View.VISIBLE, default=visible}"
             tools:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{viewModel.error}"
+            android:visibility="@{viewModel.error != null ? View.VISIBLE : View.GONE, default=gone}"
+            tools:visibility="gone"
+            tools:text="ERROR"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

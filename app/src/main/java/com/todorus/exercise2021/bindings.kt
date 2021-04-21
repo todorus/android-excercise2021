@@ -1,7 +1,10 @@
 package com.todorus.exercise2021
 
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.todorus.exercise2021.ui.product.detail.items.ProductDetailAdapter
+import com.todorus.exercise2021.ui.product.detail.items.ProductDetailItem
 import com.todorus.exercise2021.ui.product.detail.media.MediaAdapter
 import timber.log.Timber
 
@@ -13,4 +16,13 @@ fun setImages(view: ViewPager2, value: List<String>?) {
         return
     }
     (view.adapter as MediaAdapter).data = value
+}
+
+@BindingAdapter("productDetailItems")
+fun setProductDetailItems(view: RecyclerView, value: List<ProductDetailItem>?) {
+    if(view.adapter !is ProductDetailAdapter) {
+        Timber.w("Tried to set productDetailItems to a non ProductDetailAdapter")
+        return
+    }
+    (view.adapter as ProductDetailAdapter).data = value
 }

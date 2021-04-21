@@ -3,7 +3,8 @@ package com.todorus.exercise2021.ui.product.detail
 import androidx.databinding.Bindable
 import com.todorus.domain.Product
 import com.todorus.exercise2021.BR
-import com.todorus.exercise2021.ui.ObservableViewModel
+import com.todorus.exercise2021.ui.product.detail.items.ProductDetailItem
+import com.todorus.exercise2021.ui.product.observables.ObservableViewModel
 
 class ProductDetailViewModel : ObservableViewModel() {
 
@@ -16,10 +17,50 @@ class ProductDetailViewModel : ObservableViewModel() {
             notifyPropertyChanged(BR.loading)
         }
 
+    @get:Bindable
+    var error: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.error)
+        }
+
     var product: Product? = null
         set(value) {
             field = value
             notifyChange()
+        }
+
+    var recommendations: List<Product>? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.items)
+        }
+
+    var accessories: List<Product>? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.items)
+        }
+
+    @get:Bindable
+    val items: List<ProductDetailItem>
+        get() {
+            val all: MutableList<ProductDetailItem> = mutableListOf()
+
+            product?.let {
+                all.add(ProductDetailItem(ProductDetailItem.Type.HEADER, it))
+            }
+
+            recommendations?.let {
+                val items = it.map { ProductDetailItem(ProductDetailItem.Type.PRODUCT, it) }
+                all.addAll(items)
+            }
+            accessories?.let {
+                val items = it.map { ProductDetailItem(ProductDetailItem.Type.PRODUCT, it) }
+                all.addAll(items)
+            }
+
+            return all
         }
 
     @get:Bindable
@@ -42,10 +83,5 @@ class ProductDetailViewModel : ObservableViewModel() {
     @get:Bindable
     val mediaUrls: List<String>?
         get() = product?.media?.map { it.url!! }
-
-    var recommended: List<Product>? = null
-
-    var accessories: List<Product>? = null
-
 
 }

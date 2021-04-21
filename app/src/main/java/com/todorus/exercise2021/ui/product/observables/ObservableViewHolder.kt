@@ -1,11 +1,11 @@
-package com.todorus.exercise2021.ui
+package com.todorus.exercise2021.ui.product.observables
 
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
-import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
+import android.view.View
 
-open class ObservableViewModel : ViewModel(), Observable {
-
+open class ObservableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), Observable {
     private val callbacks: PropertyChangeRegistry = PropertyChangeRegistry()
 
     override fun addOnPropertyChangedCallback(
@@ -35,5 +35,4 @@ open class ObservableViewModel : ViewModel(), Observable {
     fun notifyPropertyChanged(fieldId: Int) {
         callbacks.notifyCallbacks(this, fieldId, null)
     }
-
 }

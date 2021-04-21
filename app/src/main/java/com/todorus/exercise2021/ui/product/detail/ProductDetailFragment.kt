@@ -11,10 +11,12 @@ import androidx.lifecycle.lifecycleScope
 import com.todorus.exercise2021.R
 import com.todorus.exercise2021.api
 import com.todorus.exercise2021.databinding.MainFragmentBinding
+import com.todorus.exercise2021.ui.product.detail.items.ProductDetailAdapter
 import com.todorus.exercise2021.ui.product.detail.media.MediaAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.lang.Exception
 
 class ProductDetailFragment : Fragment() {
 
@@ -30,7 +32,7 @@ class ProductDetailFragment : Fragment() {
 
         val binding: MainFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
         binding.viewModel = viewModel
-        binding.header.adapter = MediaAdapter(this)
+        binding.list.adapter = ProductDetailAdapter(childFragmentManager, lifecycle) // TODO check for circular dependency
         return binding.root
     }
 
@@ -40,20 +42,32 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun fetchData() {
+        viewModel.error = null
         viewModel.loading = true
-
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            val productResult = context?.api?.productService?.get("9200000028828094")!!
-            val recommendationResult = context?.api?.productService?.getRecommendations("9200000028828094")!!
-            val accessoriesResult =  context?.api?.productService?.getRelated("9200000028828094")!!
-            Timber.d("got data")
-            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                viewModel.product = productResult.products.first()
-                viewModel.recommended = recommendationResult.products
-                viewModel.accessories= accessoriesResult.products
-                viewModel.loading = false
+            try {
+                val productResult = context?.api?.productService?.get("9200000028828094")!!
+                val recommendationResult =
+                    context?.api?.productService?.getRecommendations("9200000028828094")!!
+                val accessoriesResult =
+                    context?.api?.productService?.getRelated("9200000028828094")!!
+                Timber.d("got data")
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    viewModel.product = productResult.products.first()
+                    viewModel.recommendations = recommendationResult.products
+                    viewModel.accessories = accessoriesResult.products
+                    viewModel.loading = false
+                }
+            } catch (e: Exception) {
+                // TODO blocks for specific exceptions
+                Timber.w(e, "Could not fetch data")
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    viewModel.error = "Could not fetch data"
+                    viewModel.loading = false
+                }
             }
         }
+
     }
 
 }
