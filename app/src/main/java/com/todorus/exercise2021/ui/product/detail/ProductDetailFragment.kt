@@ -8,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import com.todorus.domain.Product
 import com.todorus.exercise2021.R
 import com.todorus.exercise2021.api
 import com.todorus.exercise2021.databinding.MainFragmentBinding
 import com.todorus.exercise2021.ui.product.detail.items.ProductDetailAdapter
-import com.todorus.exercise2021.ui.product.detail.media.MediaAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -38,28 +38,28 @@ class ProductDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fetchData()
+        fetchData("9200000056275116")
     }
 
-    private fun fetchData() {
+    private fun fetchData(productId: String) {
+        fetchProduct(productId)
+        fetchRecommended(productId)
+        fetchAccessories(productId)
+    }
+
+    private fun fetchProduct(productId: String) {
         viewModel.error = null
         viewModel.loading = true
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             try {
                 val productResult = context?.api?.productService?.get("9200000028828094")!!
-                val recommendationResult =
-                    context?.api?.productService?.getRecommendations("9200000028828094")!!
-                val accessoriesResult =
-                    context?.api?.productService?.getRelated("9200000028828094")!!
+
                 Timber.d("got data")
                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
                     viewModel.product = productResult.products.first()
-                    viewModel.recommendations = recommendationResult.products
-                    viewModel.accessories = accessoriesResult.products
                     viewModel.loading = false
                 }
             } catch (e: Exception) {
-                // TODO blocks for specific exceptions
                 Timber.w(e, "Could not fetch data")
                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
                     viewModel.error = "Could not fetch data"
@@ -67,7 +67,50 @@ class ProductDetailFragment : Fragment() {
                 }
             }
         }
-
     }
 
+    private fun fetchRecommended(productId: String) {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+            viewModel.recommendationsLoading = true
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val recommendationResult =
+                    context?.api?.productService?.getRecommendations(productId)!!
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    viewModel.recommendations = recommendationResult.products
+                    viewModel.recommendationsLoading = false
+                }
+            } catch (e: Exception) {
+                Timber.w(e, "Could not fetch data")
+            }
+        }
+    }
+
+    private fun fetchAccessories(productId: String) {
+        viewModel.accessoriesLoading = true
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val accessoriesResult =
+                    context?.api?.productService?.getRelated(productId)!!
+                val accessoryProducts: MutableList<Product> = mutableListOf()
+                accessoriesResult.accessories.forEach { accessory ->
+                    try {
+                        val product = context?.api?.productService?.get(accessory.productId)
+                        product?.let { result -> accessoryProducts.add(result.products.first()) }
+                    } catch (e: Exception) {
+                        Timber.w(e, "Could not fetch accessory data")
+                    }
+                }
+                Timber.d("got accessories")
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    viewModel.accessories = accessoryProducts
+                    viewModel.accessoriesLoading = false
+                }
+            } catch (e: Exception) {
+                Timber.w(e, "Could not fetch data")
+            }
+        }
+    }
 }

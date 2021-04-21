@@ -4,10 +4,7 @@ import androidx.databinding.Bindable
 import com.todorus.domain.Product
 import com.todorus.exercise2021.BR
 import com.todorus.exercise2021.R
-import com.todorus.exercise2021.ui.product.detail.items.ProductDetailItem
-import com.todorus.exercise2021.ui.product.detail.items.ProductHeaderItem
-import com.todorus.exercise2021.ui.product.detail.items.ProductProductItem
-import com.todorus.exercise2021.ui.product.detail.items.ProductTitleItem
+import com.todorus.exercise2021.ui.product.detail.items.*
 import com.todorus.exercise2021.ui.product.observables.ObservableViewModel
 
 class ProductDetailViewModel : ObservableViewModel() {
@@ -15,11 +12,14 @@ class ProductDetailViewModel : ObservableViewModel() {
 
 
     @get:Bindable
-    var loading: Boolean = true
+    var loading: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.loading)
         }
+
+    var accessoriesLoading: Boolean = false
+    var recommendationsLoading: Boolean = false
 
     @get:Bindable
     var error: String? = null
@@ -55,12 +55,19 @@ class ProductDetailViewModel : ObservableViewModel() {
                 all.add(ProductHeaderItem(it))
             }
 
-            recommendations?.let {
-                all.addProducts(it, R.string.productdetail_title_recommended)
-            }
-            accessories?.let {
-                all.addProducts(it, R.string.productdetail_title_accessories)
-            }
+            all.addProductBlock(
+                recommendations,
+                recommendationsLoading,
+                R.string.productdetail_title_recommended,
+                R.string.productdetail_error_no_recommendations
+            )
+
+            all.addProductBlock(
+                accessories,
+                accessoriesLoading,
+                R.string.productdetail_title_accessories,
+                R.string.productdetail_error_no_acessories
+            )
 
             return all
         }
@@ -86,9 +93,28 @@ class ProductDetailViewModel : ObservableViewModel() {
     val mediaUrls: List<String>?
         get() = product?.media?.map { it.url!! }
 
-    fun MutableList<ProductDetailItem>.addProducts(products: List<Product>, headerStringResource: Int) {
-        this.add(ProductTitleItem(headerStringResource))
+    fun MutableList<ProductDetailItem>.addTitle(stringResource: Int) =
+        this.add(ProductTitleItem(stringResource))
+
+    fun MutableList<ProductDetailItem>.addText(stringResource: Int) =
+        this.add(ProductTextItem(stringResource))
+
+    fun MutableList<ProductDetailItem>.addLoader() =
+        this.add(ProductLoadingItem())
+
+    fun MutableList<ProductDetailItem>.addProducts(products: List<Product>) =
         this.addAll(products.map { ProductProductItem(it) })
+
+    fun MutableList<ProductDetailItem>.addProductBlock(products: List<Product>?, isLoading: Boolean, titleStringResource: Int, errorStringResource: Int) {
+        this.addTitle(titleStringResource)
+
+        if(isLoading) {
+            this.addLoader()
+        } else if(!products.isNullOrEmpty()) {
+            this.addProducts(products)
+        } else {
+            this.addText(errorStringResource)
+        }
     }
 
 }

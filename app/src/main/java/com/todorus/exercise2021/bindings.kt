@@ -38,10 +38,11 @@ fun setProductDetailItems(view: RecyclerView, value: List<ProductDetailItem>?) {
 }
 
 @BindingAdapter("textResource")
-fun setProductDetailItems(view: TextView, value: Int?) {
+fun setTextResource(view: TextView, value: Int?) {
     view.text = if(value != null) {
         view.resources.getString(value)
     } else {
         null
     }
+    Timber.d("text ${view.text}")
 }

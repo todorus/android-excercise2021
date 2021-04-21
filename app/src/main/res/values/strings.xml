@@ -2,4 +2,6 @@
     <string name="app_name">exercise2021</string>
     <string name="productdetail_title_recommended">Recommended</string>
     <string name="productdetail_title_accessories">Accesories</string>
+    <string name="productdetail_error_no_acessories">No accessories</string>
+    <string name="productdetail_error_no_recommendations">No Recommendations</string>
 </resources>

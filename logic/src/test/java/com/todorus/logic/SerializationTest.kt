@@ -14,10 +14,10 @@ class SerializationTest {
         val data = productData
 
         // When I run it through the parser
-        val result = gson.fromJson(data, ProductService.Result::class.java)
+        val result = gson.fromJson(data, ProductService.ProductsResult::class.java)
 
         // Then it should return the Product
-        val expected = ProductService.Result(
+        val expected = ProductService.ProductsResult(
             listOf(
                 Product(
                     id = "9200000028828094",

@@ -8,13 +8,19 @@ open class ProductDetailItem(
     enum class Type {
         HEADER,
         PRODUCT,
-        TITLE
+        TITLE,
+        LOADER,
+        TEXT
     }
 }
 
 class ProductTitleItem(
     val stringResource: Int
 ): ProductDetailItem(Type.TITLE)
+
+class ProductTextItem(
+    val stringResource: Int
+): ProductDetailItem(Type.TEXT)
 
 class ProductProductItem(
     val product: Product
@@ -23,3 +29,5 @@ class ProductProductItem(
 class ProductHeaderItem(
     val product: Product
 ): ProductDetailItem(Type.HEADER)
+
+class ProductLoadingItem(): ProductDetailItem(Type.LOADER)
