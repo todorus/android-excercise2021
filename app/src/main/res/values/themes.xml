@@ -15,15 +15,4 @@
         <item name="android:textAppearance">@style/App.TextAppearance</item>
     </style>
 
-    <style name="App.TextAppearance" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">20sp</item>
-    </style>
-
-    <style name="App.TextAppearance.Title">
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="App.TextAppearance.Toolbar">
-        <item name="color">#F00</item>
-    </style>
 </resources>

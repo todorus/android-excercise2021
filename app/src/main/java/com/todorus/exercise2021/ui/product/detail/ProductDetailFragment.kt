@@ -1,9 +1,8 @@
 package com.todorus.exercise2021.ui.product.detail
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +30,8 @@ class ProductDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel = ViewModelProvider(this).get(ProductDetailViewModel::class.java)
+        viewModel.onFavClick = onFavClick
+        viewModel.onAddToCartClick = onAddToCartClick
 
         val binding: MainFragmentBinding = DataBindingUtil.inflate(
             inflater,
@@ -42,12 +43,22 @@ class ProductDetailFragment : Fragment() {
         binding.viewModel = viewModel
         binding.list.adapter = ProductDetailAdapter(childFragmentManager, lifecycle) // TODO check for circular dependency
 
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fetchData("9200000056275116")
+    }
+
+    val onFavClick = View.OnClickListener {
+        viewModel.favorite = !viewModel.favorite
+    }
+
+    val onAddToCartClick = View.OnClickListener {
+        Toast.makeText(context, "Added product to basket", Toast.LENGTH_SHORT)
+            .show()
     }
 
     private fun fetchData(productId: String) {

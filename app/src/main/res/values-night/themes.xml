@@ -14,7 +14,4 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="App.TextAppearance.Toolbar">
-        <item name="color">#F0F</item>
-    </style>
 </resources>

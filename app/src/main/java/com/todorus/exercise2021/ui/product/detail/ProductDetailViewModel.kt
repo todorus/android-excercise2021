@@ -1,5 +1,6 @@
 package com.todorus.exercise2021.ui.product.detail
 
+import android.view.View
 import androidx.databinding.Bindable
 import com.todorus.domain.Product
 import com.todorus.exercise2021.BR
@@ -9,23 +10,47 @@ import com.todorus.exercise2021.ui.product.observables.ObservableViewModel
 
 class ProductDetailViewModel : ObservableViewModel() {
 
-
-
     @get:Bindable
     var loading: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.loading)
+            notifyPropertyChanged(BR.ready)
         }
 
     var accessoriesLoading: Boolean = false
     var recommendationsLoading: Boolean = false
 
     @get:Bindable
+    val ready: Boolean
+        get() = !loading && error == null
+
+    @get:Bindable
+    var favorite: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.favorite)
+        }
+
+    @get:Bindable
+    var onFavClick: View.OnClickListener? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.onFavClick)
+        }
+
+    var onAddToCartClick: View.OnClickListener? = null
+        set(value) {
+            field = value
+            notifyChange()
+        }
+
+    @get:Bindable
     var error: String? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.error)
+            notifyPropertyChanged(BR.ready)
         }
 
     var product: Product? = null

@@ -4,4 +4,6 @@
     <string name="productdetail_title_accessories">Accesories</string>
     <string name="productdetail_error_no_acessories">No accessories</string>
     <string name="productdetail_error_no_recommendations">No Recommendations</string>
+    <string name="productdetail_menu_favorite">Favorite</string>
+    <string name="buy">Add to Cart</string>
 </resources>
