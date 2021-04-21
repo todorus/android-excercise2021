@@ -1,12 +1,12 @@
 package com.todorus.exercise2021.ui.product.detail
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.todorus.domain.Product
 import com.todorus.exercise2021.R
@@ -16,7 +16,7 @@ import com.todorus.exercise2021.ui.product.detail.items.ProductDetailAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.lang.Exception
+
 
 class ProductDetailFragment : Fragment() {
 
@@ -26,13 +26,22 @@ class ProductDetailFragment : Fragment() {
 
     private lateinit var viewModel: ProductDetailViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         viewModel = ViewModelProvider(this).get(ProductDetailViewModel::class.java)
 
-        val binding: MainFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
+        val binding: MainFragmentBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.main_fragment,
+            container,
+            false
+        )
+        activity?.setActionBar(binding.toolbar)
         binding.viewModel = viewModel
         binding.list.adapter = ProductDetailAdapter(childFragmentManager, lifecycle) // TODO check for circular dependency
+
         return binding.root
     }
 
@@ -52,7 +61,7 @@ class ProductDetailFragment : Fragment() {
         viewModel.loading = true
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val productResult = context?.api?.productService?.get("9200000028828094")!!
+                val productResult = context?.api?.productService?.get(productId)!!
 
                 Timber.d("got data")
                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
